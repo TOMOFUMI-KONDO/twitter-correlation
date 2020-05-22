@@ -1,5 +1,6 @@
 # created by virtualenv automatically
 
+backend/__pycache__
 backend.db
 dist
 .env
