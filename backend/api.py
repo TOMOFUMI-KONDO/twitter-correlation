@@ -9,6 +9,7 @@ from backend.model import User
 import backend.config as cf
 import backend.TwitterGetter as tg
 import backend.SheetGetter as sg
+import backend.rank as rank
 
 api = Blueprint('api', __name__)
 
@@ -70,4 +71,20 @@ def search():
   watch_list = sheetGetter.getWatchList()
   #======================================================================
 
-  return {'users': users, 'watch_list': watch_list, 'movie_urls': movie_urls, 'user_movie_urls': user_movie_urls}
+  # print(user_movie_urls)
+  # print(users)
+  # print(movie_urls)
+  # print(watch_list)
+
+  rank_data = rank.matome(movie_urls, user_movie_urls, [watch_list[i]['movie'] for i in range(len(watch_list))])
+  # print(rank_data)
+
+  ranking = []
+  for user in rank_data:
+    user_id = users[user[0]]['user_id']
+    user_name = users[user[0]]['name']
+    icon_url = users[user[0]]['icon_url']
+
+    ranking.append({'user_id': user_id, 'name': user_name, 'icon_url': icon_url})
+
+  return {'ranking': ranking}
