@@ -26,6 +26,8 @@ class SheetGetter(object):
     for i in range(length):
       users.append({'user_id': user_id[i], 'name': name[i], 'icon_url': icon_url[i]})
 
+    users.sort(key=lambda x: x['user_id'])
+
     return users
 
   #動画のURL一覧を返す
@@ -67,12 +69,12 @@ class SheetGetter(object):
         watch_list.append({'user_id': tmp_user_id, 'movie_id': [tweets[i]['movie_id']]})
 
     #ユーザーごとに任意の動画を見たかどうかを01で示す配列を作成する
-    new_watch_list = [{'user_id': watch_list[i]['user_id'], 'movie_id': []} for i in range(len(watch_list))]
+    new_watch_list = [{'user_id': watch_list[i]['user_id'], 'movie': []} for i in range(len(watch_list))]
     for i in range(self.url_len): #動画の数だけ回す
       for j in range(len(watch_list)): #ユーザー数だけ回す
         if str(i+1) in watch_list[j]['movie_id']:
-          new_watch_list[j]['movie_id'].append(1)
+          new_watch_list[j]['movie'].append(1)
         else:
-          new_watch_list[j]['movie_id'].append(0)
+          new_watch_list[j]['movie'].append(0)
 
     return new_watch_list

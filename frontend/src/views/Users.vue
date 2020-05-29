@@ -6,8 +6,8 @@
         <b-form-group label="Name" label-for="name">
           <b-form-input id="name" type="text" required placeholder="Enter name">
           </b-form-input>
-        </b-form-group>
         <b-button block @click="registUser" variant="success">Regist!</b-button>
+        </b-form-group>
       </b-form>
     </div>
     <div align="center" class="mt-5">
