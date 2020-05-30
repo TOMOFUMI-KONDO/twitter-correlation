@@ -22,6 +22,7 @@
             <a :href="'https://twitter.com/' + user.user_id" class="d-block p-3">
               <p>@{{user.user_id}}</p>
               <p>{{user.name}}</p>
+              <p>{{similarity}}</p>
             </a>
           </div>
         </b-list-group-item>
