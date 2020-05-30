@@ -1,25 +1,27 @@
 import numpy as np
 #ダミー
-m_list_watched = [[1,1,0,0,1,0,1,0,1,1],
-[0,1,0,1,0,0,1,0,1,0],
-[1,0,1,1,0,1,0,0,1,0],
-[1,1,0,0,1,0,1,0,1,0],
-[0,0,1,0,0,1,0,0,1,1],
-[1,0,1,1,0,1,0,1,0,1],
-[0,1,0,0,1,0,1,0,1,0],
-[0,0,1,1,0,1,0,0,0,1]]
 
-url_list = ["aaa","bbb","ccc","ddd","eee","fff","ggg","hhh","iii","jjj"]
+m_list_watched = [[1,1,0,0,1,0,1,0,1,1,0,0],
+[0,1,0,1,0,0,1,0,1,0,0,1],
+[1,0,1,1,0,1,0,0,1,0,0,0],
+[1,1,0,0,1,0,1,0,1,0,1,0],
+[0,0,1,0,0,1,0,0,1,1,0,0],
+[1,0,1,1,1,1,0,1,0,1,0,1],
+[0,1,0,0,1,0,1,0,1,0,1,0],
+[0,0,1,1,0,1,0,0,0,1,1,1]]
+#とってきたデータから作る
+url_list = ["aaa","bbb","ccc","ddd","eee","fff","ggg","hhh","iii","jjj","www","rrr"]
+#検索かけたいユーザーが見た動画
+url_list_user = ["aaa","ccc","ddd","abc","fff","hhh","jjj","lll","mmm","vvv","rrr","abc","eee"]
 
-url_list_user = ["aaa","ccc","ddd","fff","hhh","jjj","lll","mmm","vvv","rrr"]
-
-#検索したいユーザーが見た動画をブール化する関数を作る
+#検索したいユーザーが見た動画をブール化する関数を作る1
+#1がユーザーが見た動画、２がURLリスト
 def bool(l_1,l_2):
     l_bool= []
     r=0
     for r in range(len(l_2)):
     #動画のURLリストの中にユーザーが見た動画が入っていれば１
-        if l_1[r] in l_2:
+        if l_2[r] in l_1:
             l_bool.append(1)
     #そうじゃなかったら０
         else:
@@ -66,4 +68,4 @@ def matome(url_list,url_list_user,m_list_watched):
      return(lank(sml)[0:5])
 
 
-print(matome(url_list_user,url_list,m_list_watched))
+print(matome(url_list,url_list_user,m_list_watched))
