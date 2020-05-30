@@ -48,7 +48,11 @@ class SheetGetter(object):
     movie_id = tweet_sheet.col_values(1)[1:]
     user_id = tweet_sheet.col_values(2)[1:]
 
-    length = len(movie_id)
+    if len(movie_id) >= len(user_id):
+      length = len(user_id)
+    else:
+      length = len(movie_id)
+      
     tweets = []
     for i in range(length):
       tweets.append({'movie_id': movie_id[i], 'user_id': user_id[i]})

@@ -4,7 +4,7 @@
     <p>動画のツイート履歴からあなたに似ているユーザーを探します。</p>
     <div align="center" class="mt-5">
       <b-form-group label="" label-for="TwitterId">
-        <div class="input">
+        <div class="d-flex align-items-center">
           @<b-form-input id="twitterID" type="text" required placeholder="twitterIDを入力してください" class="ml-1"></b-form-input>
         </div>
         <b-button block @click="search" variant="success" class="mt-3">Search!</b-button>
@@ -16,11 +16,13 @@
     <div align="center" class="mt-5" v-if="is_searched">
       <b-list-group>
         <p><b>@{{search_user}}</b>さんに似ているユーザーはこんな人たちです</p>
-        <b-list-group-item v-for="(user, index) in similar_user" :key="index" class="mb-5">
+        <b-list-group-item v-for="(user, index) in similar_user" :key="index" class="border-0 mb-5">
           <p align="center"><b>{{index+1}}位</b></p>
-          <div class="border p-3">
-            <p>@{{user.user_id}}</p>
-            <p>{{user.name}}</p>
+          <div class="border">
+            <a :href="'https://twitter.com/' + user.user_id" class="d-block p-3">
+              <p>@{{user.user_id}}</p>
+              <p>{{user.name}}</p>
+            </a>
           </div>
         </b-list-group-item>
       </b-list-group>
@@ -51,6 +53,7 @@ export default {
       }
 
       this.is_searching = true
+      this.is_searched = false
 
       const params = new URLSearchParams()
       params.append('id', twitterid.value)
@@ -79,11 +82,6 @@ export default {
     max-width: 300px;
     width: 90%;
 
-    .input {
-      display: flex;
-      align-items: center;
-    }
-
     button {
       max-width: 150px;
       width: 50%;
@@ -95,10 +93,17 @@ export default {
     width: 90%;
 
     .list-group-item {
-      border: none;
-
       div {
         border-color: rgb(167, 167, 167) !important;
+
+        a {
+          color: rgb(33, 37, 41);
+
+          &:hover {
+            background-color: darken(#fff, 10%);
+            text-decoration: none;
+          }
+        }
       }
     }
   }

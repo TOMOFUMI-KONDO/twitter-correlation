@@ -48,7 +48,7 @@ def deleteUser():
 #todo: 本人はランキングに表示されないようにする必要がある
 @api.route('/search/', methods=['POST']) # note: GETリクエストにするとパラメータをうまく渡せなかったので、POSTにした。
 def search():
-  # リクエストで送信されたtwitterのユーザー名から、そのユーザーのツイートに含まれるyoutubeのリンクを取得する
+  # リクエストで送信されたtwitterのユーザー名から、そのアカウントの情報を取得する
   #======================================================================
   screen_name = request.form['id']
   twitterGetter = tg.TweetGetter(screen_name) # インスタンスを作成
@@ -61,6 +61,9 @@ def search():
   user_movie_urls = data['user_movie_urls']
   print('remark: {}'.format(data['remark']))
   print('{}のツイートから{}件の動画URLを取得'.format(screen_name, len(user_movie_urls)))
+
+  user_friends = twitterGetter.getFriends()
+  print(user_friends)
   #======================================================================
 
   #スプレッドシートから比較用のデータを取得する
