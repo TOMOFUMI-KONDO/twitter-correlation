@@ -1,8 +1,8 @@
 # backendディレクトリをパッケージとして初期化
-
 from flask import Flask, render_template
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
+import backend.config
 
 app = Flask('twitter-correlation', static_folder = './dist/static', template_folder = './dist')
 app.config.from_object('backend.config.BaseConfig') # config.pyの設定を取得
