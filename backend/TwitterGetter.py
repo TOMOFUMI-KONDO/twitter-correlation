@@ -15,7 +15,7 @@ class TweetGetter(object):
     self.headers = {"content-type": "application/json"}
     self.no_tweet_count = 0
 
-  # ツイートからyoutubeのリンクを抜き出してlistにする
+  # twitterのユーザー名から、そのユーザーのツイートに含まれるyoutubeのリンクを取得する
   def collect(self, total=-1):
     isRemain = self.checkLimit()
     if not isRemain:
@@ -68,6 +68,7 @@ class TweetGetter(object):
     try:
       data = json.loads(json_data) # dataにはdict型が入る
     except ValueError as e: # json.loadsが失敗した時は空のlistを返す
+      print(e)
       return []
 
     remaining = data['resources']['statuses']['/statuses/user_timeline']['remaining']
@@ -101,6 +102,59 @@ class TweetGetter(object):
     try:
       data = json.loads(json_data) # dataにはdict型のlistが入る
     except ValueError as e: # json.loadsが失敗した時は空のlistを返す
+      print(e)
       return []
 
     return data
+
+  def getFriends(self):
+    params = {
+      'screen_name': self.screen_name,
+      'count': '200',
+      'skip_status': 'true',
+      'include_user_entities': 'false'
+    }
+
+    for param in params:
+      value = params[param]
+      if param == 'screen_name':
+        url = 'https://api.twitter.com/1.1/friends/list.json' + '?screen_name=' + value
+      else:
+        url = url + '&' + param + '=' + value
+
+    next_cursor = -1
+    friends = []
+
+    while next_cursor != 0:
+      isRemain = self.checkLimit()
+      if not isRemain:
+        if len(friends) == 0:
+          return {'error': 'Not Remain'}
+        else:
+          return friends
+
+      if next_cursor != -1:
+        url = url + '&cursor=' + str(next_cursor)
+
+      header, content = self.client.request(url, method='GET', body="".encode('utf-8'), headers=self.headers)  
+      json_data = content.decode('utf-8')
+      try:
+        data = json.loads(json_data)
+      except ValueError as e:
+        print(e)
+        if len(friends) == 0:
+          return {'error': 'Not Remain'}
+        else:
+          return friends
+
+      if 'errors' in data:
+        print(data['errors'])
+        if len(friends) == 0:
+          return {'error': 'Not Remain'}
+        else:
+          return friends
+
+      friends = friends + [d['screen_name'] for d in data['users']]
+      next_cursor = data['next_cursor']
+
+    return friends
