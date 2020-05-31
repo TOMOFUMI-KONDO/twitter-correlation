@@ -31,8 +31,13 @@ def bool(url_list_user, url_list):
 
 #コサイン類似度を求める関数
 def cos_sml(l_1,l_2):
-    return np.dot(l_1,l_2) / (np.linalg.norm(l_1) * np.linalg.norm(l_2))
-
+    if l_1 == 0:
+           sml_cos = 0
+    elif l_2 == 0:
+          sml_cos = 0
+    else:
+           sml_cos= np.dot(l_1,l_2) / (np.linalg.norm(l_1) * np.linalg.norm(l_2))
+    return sml_cos
 #取ってきた各データに対するコサイン類似度を配列にする関数
 def sml_l(m_arr_user,m_list_watched):
     sml = []
